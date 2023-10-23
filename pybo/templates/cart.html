@@ -1,0 +1,52 @@
+{% extends 'base.html' %} 
+{% block content %}
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for cart in cart_list %}
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="{{ cart.image }}" style="height:300px; weight:300px;"/>
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{ cart.name }}</h5>
+                                <!-- Product price-->
+                                {{ cart.price }} 원
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <form id="form" action="/cart/del" method="post">
+                            <input type="hidden" id="cart" name="cart" value="{{ cart.id }}">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('form').submit()">Del</a></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">총 {{ cnt }} 개<h5>
+                        </div>
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ total_price }} 원<h5>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <form id="order_form" action="/order/add" method="post">
+                        <input type="hidden" id="order" name="order" value="{{ order_id }}">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('order_form').submit()">Order</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% block content %}
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <table class="table caption-top">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Menu</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Order</th>
+                        <th scope="col">Done</th>
+                        <th scope="col">Cancel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in order_list %}
+                    <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.menu }}</td>
+                    <td>{{ order.total_price }} 원</td>
+                    <td>{{ order.state }}</td>
+                    <td>{{ order.order_time.strftime('%Y/%m/%d %H:%M:%S') }}</td>
+                    <td>
+                        {% if order.done_time %}
+                            {{ order.done_time.strftime('%Y/%m/%d %H:%M:%S') }}
+                        {% elif order.cancel_time %}
+                        {% else %}
+                            <form id="done_form" action="/order/update" method="post">
+                                <input type="hidden" id="id" name="id" value="{{ order.id }}">
+                                <input type="hidden" id="state" name="state" value="done">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('done_form').submit()">Done</a></div>
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if order.cancel_time %}
+                            {{ order.cancel_time.strftime('%Y/%m/%d %H:%M:%S') }}
+                        {% elif order.done_time %}
+                        {% else%}
+                            <form id="cancel_form" action="/order/update" method="post">
+                                <input type="hidden" id="id" name="id" value="{{ order.id }}">
+                                <input type="hidden" id="state" name="state" value="cancel">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('cancel_form').submit()">Cancel</a></div>
+                            </form>
+                        {% endif %}
+                    </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

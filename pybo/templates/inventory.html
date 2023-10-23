@@ -1,0 +1,49 @@
+{% extends 'base.html' %} 
+{% block content %}
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <table class="table caption-top">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inventory in inventory_list %}
+                    <tr>
+                        <td>{{ inventory.id }}</td>
+                        <td>{{ inventory.name }}</td>
+                        <td>{{ inventory.price }} 원</td>
+                        <td>{{ inventory.amount }}</td>
+                        <td>
+                            <form id="update_form" action="/inventory/update" method="post">
+                                <input type="hidden" id="id" name="id" value="{{ inventory.id }}">
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" id="amount_u" name="amount" value="">
+                                    <a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('update_form').submit()">Update</a>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <form id="add_form" action="/inventory/add" method="post">
+                        <td></td>
+                        <td><div class="col-lg-4"><input type="text" class="form-control" id="name" name="name" value=""></div></td>
+                        <td><div class="col-lg-4"><input type="text" class="form-control" id="price" name="price" value=""></div></td>
+                        <td><div class="col-lg-4"><input type="text" class="form-control" id="amount_a" name="amount" value=""></div></td>
+                        <td>
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="document.getElementById('add_form').submit()">Add</a></div>
+                        </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
